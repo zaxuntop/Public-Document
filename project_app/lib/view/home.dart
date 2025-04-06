@@ -99,7 +99,8 @@ class _HomeState extends State<Home> {
                           checkidpw();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.yellow,
+                          backgroundColor: Colors.lightGreen,
+                          foregroundColor: Colors.redAccent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

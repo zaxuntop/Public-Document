@@ -19,24 +19,32 @@ class _FirstPageState extends State<FirstPage> {
   late bool isCheckBox; // 체크박스 체크 여부
   late int radioValue; // 라디오 버튼 값
   late String selectDateText; // 선택 날짜 텍스트
-  late List<TodoList> imaportantList; // 중요 일정 리스트트
+  late List<TodoList> imaportantList; // 중요 일정 리스트
+  late List<TodoList> trashList; // 삭제 일정 리스트
 
 @override
   void initState() {
     super.initState();
     todoList = []; // 할일 리스트 초기화
-    date = DateTime.now(); // 지금 날짜로 초기화
     addData(); // 데이터 추가
+    date = DateTime.now(); // 지금 날짜로 초기화
     textEditingController = TextEditingController(); // 텍스트 필드 컨트롤러 초기화
     selectedDate = DateTime.now(); // 선택 날짜 초기화
     isCheckBox = false; // 체크박스 초기화
     radioValue = 0; // 라디오 버튼 초기화
     selectDateText = ''; // 선택 날짜 텍스트 초기화
     imaportantList = []; // 중요 일정 리스트 초기화
+    trashList = []; // 삭제 일정 리스트 초기화화
   }
 
 addData(){
-  todoList.add(TodoList(imagePath: 'images/food.png', contents: '점심 시키기', date: DateTime.now(), action: false, imaportant: false));
+  todoList.add(TodoList(
+    imagePath: 'images/food.png', 
+    contents: '비빔국수 점심약속', 
+    date: DateTime.now(), 
+    action: false, 
+    imaportant: false)
+  );
 }
 
   @override
@@ -48,9 +56,9 @@ addData(){
         backgroundColor: Colors.lightGreen,
         actions: [
           IconButton(onPressed: () {
-            Get.to(Habit(imaportantList: imaportantList,));
+            Get.to(Habit(imaportantList: imaportantList,)); 
           },
-          icon: Icon(Icons.add_circle_outline),
+          icon: Icon(Icons.add_circle),
           ),
         ],
       ),
@@ -61,11 +69,11 @@ addData(){
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Image.asset('images/group.png', width: 50,),
-                Image.asset('images/sport.png', width: 50,),
-                Image.asset('images/food.png', width: 50,),
-                Image.asset('images/shopping.png', width: 50,),
-                Image.asset('images/clock.png', width: 50,),
+                Image.asset('images/group.png', width: 40,),
+                Image.asset('images/sport.png', width: 40,),
+                Image.asset('images/food.png', width: 40,),
+                Image.asset('images/shopping.png', width: 40,),
+                Image.asset('images/clock.png', width: 40,),
               ],
             ),
             Row(
@@ -119,8 +127,9 @@ addData(){
                 ),
               ),
               maxLines: 1,
+              maxLength: 20,
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 5,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -128,8 +137,12 @@ addData(){
                   onPressed: () {
                     dispDatePicker();
                   }, 
-                  child: Text('날짜 선택')
+                  child: Text('날짜 선택',
+                  style: TextStyle(
+                    color: Colors.redAccent
                   ),
+                  ),
+                ),
                   SizedBox(width: 20,),
                 ElevatedButton(
                   onPressed: () {
@@ -147,8 +160,12 @@ addData(){
                     textEditingController.clear();
                     setState(() {      });
                   }, 
-                  child: Text('일정 추가')
+                  child: Text('일정 추가',
+                  style: TextStyle(
+                    color: Colors.redAccent
+                  ) ,
                   ),
+                ),
               ],
             ),
             Expanded(
@@ -159,15 +176,21 @@ addData(){
                     direction: DismissDirection.endToStart,
                     key: ValueKey(todoList[index]),
                     onDismissed: (direction) {
+                      trashList.add(todoList[index]);
                       todoList.remove(todoList[index]);
+                      Get.snackbar(
+                        '삭제', 
+                        '해당 일정을 삭제했습니다',
+                        backgroundColor: Colors.redAccent
+                        );
                       setState(() {    });
                     },
                     background: Container(
                       color: Colors.redAccent,
                       alignment: Alignment.centerRight,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 15),
                       child: Icon(Icons.delete_forever_outlined,
-                      size: 40,
+                      size: 35,
                       ),
                     ),
                     child: Card(
@@ -183,12 +206,18 @@ addData(){
                           ),
                           Image.asset(
                             todoList[index].imagePath,
-                            width: 55,
+                            width: 45,
                           ),
+                          SizedBox(width: 5,),
                           Text(
                             todoList[index].contents,
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
                           ),
-                          Text(' [날짜 : ${todoList[index].date.toString().split(' ')[0]}]'),
+                          Text(' [날짜: ${todoList[index].date.toString().split(' ')[0]}]',
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                          ),
                           Spacer(),
                           IconButton(
                             onPressed: () {
@@ -202,7 +231,7 @@ addData(){
                             }, 
                             icon: Icon(
                               Icons.star,
-                              color: todoList[index].imaportant ? Colors.black : Colors.white,
+                              color: todoList[index].imaportant ? Colors.yellow : Colors.white,
                             ),
                             ),
                         ],
@@ -215,7 +244,10 @@ addData(){
           ],
         ),
       ),
-      drawer: DrawerMenu(), 
+      drawer: DrawerMenu(
+        imaportantList: imaportantList,
+        trashList: trashList,
+        ), 
     );
   } //build
 
