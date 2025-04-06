@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_app/model/message.dart';
 import 'package:project_app/view/habit.dart';
 import 'package:project_app/view/home.dart';
 import 'package:project_app/view/profile.dart';
@@ -7,7 +8,10 @@ import 'package:project_app/view/today.dart';
 import 'package:project_app/view/trash.dart';
 // 드로워 바 페이지
 class DrawerMenu extends StatelessWidget {
-  const DrawerMenu({super.key,});
+  final List<TodoList> imaportantList;
+  final List<TodoList> trashList;
+
+  const DrawerMenu({super.key, required this.imaportantList, required this.trashList});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class DrawerMenu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.today),
             title: Text(
-              '오늘 일정',
+              '전체 일정',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             onTap: () => Get.to(Today()),
@@ -49,7 +53,7 @@ class DrawerMenu extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
-              Get.to(Habit);
+              Get.to(Habit(imaportantList: imaportantList,));
             }, 
           ),
           ListTile(
@@ -58,7 +62,7 @@ class DrawerMenu extends StatelessWidget {
               '삭제한 일정',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            onTap: () => Get.to(Trash()),
+            onTap: () => Get.to(Trash(trashList: trashList,)),
           ),
           ListTile(
             leading: Icon(Icons.logout),
