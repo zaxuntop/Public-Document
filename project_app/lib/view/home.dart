@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(
         '야 너두 To do 할 수 있어\n' 
-        "'Check Log In'",
+        "'Log In Now!'",
         textAlign: TextAlign.center,
         style: TextStyle(
           color: const Color.fromARGB(255, 27, 19, 148),
