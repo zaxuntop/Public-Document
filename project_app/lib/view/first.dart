@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
 import 'package:project_app/view/drawer.dart';
 import 'package:project_app/view/habit.dart';
@@ -19,28 +20,32 @@ class _FirstPageState extends State<FirstPage> {
   late bool isCheckBox; // 체크박스 체크 여부
   late int radioValue; // 라디오 버튼 값
   late String selectDateText; // 선택 날짜 텍스트
-  late List<TodoList> imaportantList; // 중요 일정 리스트
-  late List<TodoList> trashList; // 삭제 일정 리스트
+  // late List<TodoList> imaportantList; // 중요 일정 리스트
+  // late List<TodoList> trashList; // 삭제 일정 리스트
+  // late List<TodoList> todayList; // 오늘 일정 리스트
 
 @override
   void initState() {
     super.initState();
-    todoList = []; // 할일 리스트 초기화
+    todoList = TotalList.todoList; // 전체 일정 리스트
+    if(todoList.isEmpty){
     addData(); // 데이터 추가
+    }
     date = DateTime.now(); // 지금 날짜로 초기화
     textEditingController = TextEditingController(); // 텍스트 필드 컨트롤러 초기화
     selectedDate = DateTime.now(); // 선택 날짜 초기화
     isCheckBox = false; // 체크박스 초기화
     radioValue = 0; // 라디오 버튼 초기화
     selectDateText = ''; // 선택 날짜 텍스트 초기화
-    imaportantList = []; // 중요 일정 리스트 초기화
-    trashList = []; // 삭제 일정 리스트 초기화화
+    // imaportantList = []; // 중요 일정 리스트 초기화
+    // trashList = []; // 삭제 일정 리스트 초기화
+    // todayList = []; // 오늘 일정 리스트 초기화
   }
 
 addData(){
   todoList.add(TodoList(
     imagePath: 'images/food.png', 
-    contents: '비빔국수 점심약속', 
+    contents: '안돌이지돌이다래미한숨바우 철수 식사', // 현실적으로 가장 긴 지명 예시시
     date: DateTime.now(), 
     action: false, 
     imaportant: false)
@@ -61,15 +66,20 @@ addData(){
         backgroundColor: Colors.lightGreen,
         actions: [
           IconButton(onPressed: () {
-            Get.to(Habit(imaportantList: imaportantList,),
+            Get.to(Habit(imaportantList: TotalList.imaportantList,),
             transition: Transition.rightToLeft,
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 1),
             ); 
           },
           icon: Icon(Icons.add_circle),
           ),
         ],
       ),
+      drawer: drawerMenu(
+        imaportantList: TotalList.imaportantList, 
+        trashList: TotalList.trashList, 
+        todayList: TotalList.todayList
+        ),
       body: Center(
         child: Column(
           children: [
@@ -129,13 +139,13 @@ addData(){
               controller: textEditingController,
               decoration: InputDecoration(
                 labelText: '추가할 일정을 입력하세요',
-                hintText: '일정을 입력하세요',
+                hintText: '일정을 입력하는 곳입니다.',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
               maxLines: 1,
-              maxLength: 15,
+              maxLength: 19,  // 가장 긴 지명 14글자 감안
             ),
             SizedBox(height: 5,),
             Row(
@@ -157,14 +167,27 @@ addData(){
                     if(textEditingController.text.trim().isEmpty){
                       Get.snackbar('경고', '일정을 입력하세요', backgroundColor: Colors.redAccent);
                       return;
-                    }                    
-                    todoList.add(TodoList(
-                    imagePath: getRadioValue(), 
-                    contents: textEditingController.text, 
-                    date: selectedDate, 
-                    action: false,
-                    imaportant: false),
+                    } // index 참조를 위해 newtodo 변수 지정
+                     final newtodo = TodoList(
+                      imagePath: getRadioValue(), 
+                      contents: textEditingController.text, 
+                      date: selectedDate, 
+                      action: false, 
+                      imaportant: false
                     );
+                    todoList.add(newtodo);
+
+                    if(selectedDate.toString().substring(0,10) == date.toString().substring(0,10)){
+                      TotalList.todayList.add(newtodo);
+                    }
+                    // todoList.add(TodoList(
+                    // imagePath: getRadioValue(), 
+                    // contents: textEditingController.text, 
+                    // date: selectedDate, 
+                    // action: false,
+                    // imaportant: false
+                    // ),
+                    // );
                     textEditingController.clear();
                     setState(() {      });
                   }, 
@@ -184,12 +207,17 @@ addData(){
                     direction: DismissDirection.endToStart,
                     key: ValueKey(todoList[index]),
                     onDismissed: (direction) {
-                      trashList.add(todoList[index]);
-                      todoList.remove(todoList[index]);
+                      TotalList.trashList.add(todoList[index]);
+                      final removeIndex = todoList[index]; // index 참조 위해 변수 지정
+                      todoList.removeAt(index);
+                      TotalList.todayList.remove(removeIndex);
+                      // TotalList.todayList.remove(TotalList.todayList[index]);
+                      // todoList.remove(todoList[index]);
                       Get.snackbar(
                         '삭제', 
                         '해당 일정을 삭제했습니다',
-                        backgroundColor: Colors.redAccent
+                        backgroundColor: Colors.redAccent,
+                        duration: Duration(milliseconds: 1500),
                         );
                       setState(() {    });
                     },
@@ -202,7 +230,7 @@ addData(){
                       ),
                     ),
                     child: Card(
-                      color: todoList[index].action ? Colors.green : Colors.blueGrey,
+                      color: todoList[index].action ? Colors.lightGreen : Colors.grey,
                       child: Row(
                         children: [
                           Checkbox(
@@ -214,26 +242,30 @@ addData(){
                           ),
                           Image.asset(
                             todoList[index].imagePath,
-                            width: 45,
+                            width: 40,
                           ),
                           SizedBox(width: 5,),
-                          Text(
-                            todoList[index].contents,
-                            softWrap: true,
-                            overflow: TextOverflow.visible,
-                          ),
-                          Text(' [날짜: ${todoList[index].date.toString().split(' ')[0]}]',
-                          softWrap: true,
-                          overflow: TextOverflow.visible,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                todoList[index].contents,
+                                softWrap: true,
+                                maxLines: 2,
+                              ),
+                              Text(
+                                ' [날짜: ${todoList[index].date.toString().split(' ')[0]}]',
+                              ),
+                            ],
                           ),
                           Spacer(),
                           IconButton(
                             onPressed: () {
                               todoList[index].imaportant = !todoList[index].imaportant;
                               if(todoList[index].imaportant == true){
-                                imaportantList.add(todoList[index]);
+                                TotalList.imaportantList.add(todoList[index]);
                               }else{
-                                imaportantList.remove(todoList[index]);
+                                TotalList.imaportantList.remove(todoList[index]);
                               }
                               setState(() {                         });
                             }, 
@@ -252,10 +284,6 @@ addData(){
           ],
         ),
       ),
-      drawer: DrawerMenu(
-        imaportantList: imaportantList,
-        trashList: trashList,
-        ), 
     );
   } //build
 
@@ -302,6 +330,7 @@ addData(){
     }
     setState(() {   });
   }
+ 
 
 
 }

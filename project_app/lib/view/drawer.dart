@@ -1,79 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
+import 'package:project_app/view/first.dart';
 import 'package:project_app/view/habit.dart';
 import 'package:project_app/view/home.dart';
 import 'package:project_app/view/profile.dart';
 import 'package:project_app/view/today.dart';
 import 'package:project_app/view/trash.dart';
-// 드로워 바 페이지
-class DrawerMenu extends StatelessWidget {
-  final List<TodoList> imaportantList;
-  final List<TodoList> trashList;
 
-  const DrawerMenu({super.key, required this.imaportantList, required this.trashList});
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: [
-          UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: AssetImage('images/login2.jpg'),
-            ),
-            accountName: Text('야나두'),
-            accountEmail: Text('yanado@todo.or.kr'),
-            decoration: BoxDecoration(
-              color: Colors.lightGreen,
-              borderRadius: BorderRadius.circular(20),
-            ),
+Widget drawerMenu({
+  required List<TodoList> imaportantList,
+  required List<TodoList> trashList,
+  required List<TodoList> todayList,
+}) {
+  return Drawer(
+    child: ListView(
+      children: [
+        UserAccountsDrawerHeader(
+          currentAccountPicture: CircleAvatar(
+            backgroundImage: AssetImage('images/login2.jpg'),
           ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
-              '프로필 보기',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () => Get.to(Profile()),
+          accountName: Text('야나두'),
+          accountEmail: Text('yanado@todo.or.kr'),
+          decoration: BoxDecoration(
+            color: Colors.lightGreen,
+            borderRadius: BorderRadius.circular(20),
           ),
-          ListTile(
-            leading: Icon(Icons.today),
-            title: Text(
-              '전체 일정',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () => Get.to(Today()),
+        ),
+        ListTile(
+          leading: Icon(Icons.person),
+          title: Text(
+            '프로필 보기',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          ListTile(
-            leading: Icon(Icons.repeat),
-            title: Text(
-              '중요 일정',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Get.to(Habit(imaportantList: imaportantList,));
-            }, 
+          onTap: () {
+            Get.back(); // Navigator.pop(context) 대신
+            Get.to(Profile());
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.checklist),
+          title: Text(
+            '전체 일정',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          ListTile(
-            leading: Icon(Icons.remove_circle),
-            title: Text(
-              '삭제한 일정',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () => Get.to(Trash(trashList: trashList,)),
+          onTap: () {
+            Get.back(); 
+            Get.to(FirstPage());
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.today),
+          title: Text(
+            '오늘 일정',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text(
-              '로그 아웃',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onTap: () => Get.off(Home()),
+          onTap: () {
+            Get.back();
+            Get.to(Today());
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.repeat),
+          title: Text(
+            '중요 일정',
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
-    );
-  }
+          onTap: () {
+            Get.back();
+            Get.to(Habit(imaportantList: TotalList.imaportantList));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.remove_circle),
+          title: Text(
+            '삭제 일정',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          onTap: () {
+            Get.back();
+            Get.to(Trash(trashList: TotalList.trashList));
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.logout),
+          title: Text(
+            '로그 아웃',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          onTap: () => Get.offAll(Home()),
+        ),
+      ],
+    ),
+  );
 }

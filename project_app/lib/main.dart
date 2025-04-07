@@ -9,11 +9,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+  const MyApp({super.key,});
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       localizationsDelegates: [ // 로컬하려면 타이틀 쪽에 로컬컬라이제이션 사용, 펍스펙.yaml 추가 타이핑
         GlobalMaterialLocalizations.delegate,
