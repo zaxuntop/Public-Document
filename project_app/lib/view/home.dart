@@ -147,6 +147,7 @@ class _HomeState extends State<Home> {
                 },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
                 ),
                 child: Text('다음', style: TextStyle(color: Colors.white)),
               ),
