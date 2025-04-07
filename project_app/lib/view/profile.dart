@@ -34,9 +34,9 @@ class _ProfileState extends State<Profile> {
               ),
               ),
               Text(
-                '항상 즐거운 마음으로 일정을 관리합니다\n'
-                '여러분도 저와 함께 해요!!\n'
-                '야나두와 함께한지 1년이 되었어요\n',
+                '즐거운 마음으로 일정을 관리합니다\n'
+                '여러분도 함께 해요!!\n'
+                '모두 좋은 일만 생기시길~\n',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

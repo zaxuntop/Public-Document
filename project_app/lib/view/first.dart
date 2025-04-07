@@ -51,12 +51,20 @@ addData(){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('전체 일정 관리'),
+        title: Text(
+          '전체 일정 관리',
+        style: TextStyle(
+          fontWeight: FontWeight.bold
+        ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
         actions: [
           IconButton(onPressed: () {
-            Get.to(Habit(imaportantList: imaportantList,)); 
+            Get.to(Habit(imaportantList: imaportantList,),
+            transition: Transition.rightToLeft,
+            duration: Duration(seconds: 2),
+            ); 
           },
           icon: Icon(Icons.add_circle),
           ),
@@ -65,7 +73,7 @@ addData(){
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 5,),
+            SizedBox(height: 8,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -127,7 +135,7 @@ addData(){
                 ),
               ),
               maxLines: 1,
-              maxLength: 20,
+              maxLength: 15,
             ),
             SizedBox(height: 5,),
             Row(

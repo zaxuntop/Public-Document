@@ -31,7 +31,7 @@ class _HabitState extends State<Habit> {
                   ' 중요 일정', 
                   '${widget.imaportantList[index].contents}을 해제했습니다',
                   backgroundColor: Colors.red,
-                  duration: Duration(seconds: 3),
+                  duration: Duration(seconds: 2),
                   );
                 widget.imaportantList[index].imaportant = false;
                 widget.imaportantList.remove(widget.imaportantList[index]);
