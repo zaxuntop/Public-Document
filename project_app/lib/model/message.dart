@@ -5,8 +5,8 @@ class Message {
 }
 
 class TodoList{
-  final String imagePath; // 이미지 경로
-  final String contents;// 입력 글자
+  late String imagePath; // 이미지 경로
+  late String contents;// 입력 글자
   final DateTime date; // 날짜
   late bool action; // 리스트뷰 클릭 여부
   late bool imaportant; // 중요 일정 체크

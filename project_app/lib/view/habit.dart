@@ -16,8 +16,14 @@ class _HabitState extends State<Habit> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('중요 일정'),
+        title: Text(
+          '중요 일정',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          ),
         backgroundColor: Colors.yellowAccent,
+        centerTitle: true,
       ),
       body: Center(
         child: ListView.builder(
@@ -27,9 +33,10 @@ class _HabitState extends State<Habit> {
               direction: DismissDirection.endToStart,
               key: ValueKey(widget.imaportantList[index]),
               onDismissed: (direction) {
+                
                 Get.snackbar(
                   ' 중요 일정', 
-                  '${widget.imaportantList[index].contents}을 해제했습니다',
+                  '${widget.imaportantList[index].contents} 일정을 해제했습니다',
                   backgroundColor: Colors.red,
                   duration: Duration(seconds: 2),
                   );
@@ -57,29 +64,6 @@ class _HabitState extends State<Habit> {
       ),
     );
   } //build
-  // buttonDialog(int index){
-  //   Get.defaultDialog(
-  //     title: '중요!',
-  //     middleText: '해당 일정을 정말로 삭제하시겠습니까?',
-  //     backgroundColor: Colors.deepOrange,
-  //     barrierDismissible: false,
-  //     actions: [
-  //       TextButton(
-  //         onPressed: () {
-  //           widget.imaportantList.removeAt(index);
-  //           Get.back();
-  //         }, 
-  //         child: Text('예'),
-  //         ),
-  //       TextButton(
-  //         onPressed: () {
-  //           Get.back();
-  //         }, 
-  //         child: Text('아니오'),
-  //         ),
-  //     ]
-  //   );
-  // }
 
 
 }
