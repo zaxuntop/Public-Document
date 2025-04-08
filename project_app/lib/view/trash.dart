@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_app/model/message.dart';
+import 'package:project_app/view/first.dart';
 
 class Trash extends StatefulWidget {
   final List<TodoList> trashList;
@@ -32,6 +33,11 @@ class _TrashState extends State<Trash> {
           ),
         backgroundColor: Colors.redAccent,
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Get.off(() => FirstPage());
+          }, 
+          icon: Icon(Icons.arrow_back)),        
       ),
       body: Column(
         children: [
@@ -85,10 +91,6 @@ class _TrashState extends State<Trash> {
           ),
         ],
       ),
-        // drawer: DrawerMenu(
-        // imaportantList: imaportantList,
-        // trashList: trashList,
-        // ),
     );
   } //build
     buttonDialog(){

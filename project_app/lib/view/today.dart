@@ -16,13 +16,15 @@ class _TodayState extends State<Today> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('오늘 일정',),
+        title: Text('오늘 일정',
+        style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.lightBlue,
         centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {
-              Get.back(result: true); // back할때 변경내용을 감지
+              Navigator.pop(context, true); // back할때 변경내용을 감지
             }, 
             icon: Icon(Icons.arrow_back)),
         ],
@@ -30,7 +32,9 @@ class _TodayState extends State<Today> {
       drawer: drawerMenu(
         imaportantList: TotalList.imaportantList, 
         trashList: TotalList.trashList, 
-        todayList: TotalList.todayList
+        todayList: TotalList.todayList,
+        context: context,
+        onTodayTap: () async {}, // 콜백 필요없어 빈 async 함수 넘기기
         ),
       body: ListView.builder(
         itemCount: TotalList.todayList.length,
@@ -46,6 +50,9 @@ class _TodayState extends State<Today> {
               Get.snackbar(
                 '삭제 완료', 
                 '${removeIndex.contents} 일정이 삭제되었습니다',
+                duration: Duration(seconds: 1),
+                backgroundColor: Colors.red,
+                snackPosition: SnackPosition.TOP
                 );
               setState(() { });
             },

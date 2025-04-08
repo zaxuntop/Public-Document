@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_app/model/message.dart';
+import 'package:project_app/view/first.dart';
 
 class Habit extends StatefulWidget {
  final List<TodoList> imaportantList; // 중요 일정 리스트
@@ -24,6 +25,11 @@ class _HabitState extends State<Habit> {
           ),
         backgroundColor: Colors.yellowAccent,
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Get.off(() => FirstPage());
+          }, 
+          icon: Icon(Icons.arrow_back)),        
       ),
       body: Center(
         child: ListView.builder(
