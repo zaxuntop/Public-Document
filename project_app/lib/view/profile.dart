@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:project_app/view/first.dart';
-
+// 프로필 칸
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -14,7 +14,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('프로필'),
+        title: Text('(프로필)'),
         backgroundColor: Colors.lightGreen,
         leading: IconButton(
           onPressed: () {

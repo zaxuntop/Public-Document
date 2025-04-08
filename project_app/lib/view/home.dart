@@ -76,7 +76,9 @@ class _HomeState extends State<Home> {
                           filled: true,
                           fillColor: Colors.black12,
                           border: OutlineInputBorder(),
+                          counterText: '',
                         ),
+                        maxLength: 20,
                       ),
                     ),
                     Padding(
@@ -88,8 +90,10 @@ class _HomeState extends State<Home> {
                           filled: true,
                           fillColor: Colors.black12,
                           border: OutlineInputBorder(),
+                          counterText: '',
                         ),
                         obscureText: true,
+                        maxLength: 20,
                       ),
                     ),
                     Padding(

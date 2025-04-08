@@ -7,13 +7,14 @@ import 'package:project_app/view/habit.dart';
 import 'package:project_app/view/home.dart';
 import 'package:project_app/view/profile.dart';
 import 'package:project_app/view/trash.dart';
-
+// 드로우바를 클래스로 변경하여 다른페이지에서 불러쓰게 함
 Drawer drawerMenu({
   required List<TodoList> imaportantList,
   required List<TodoList> trashList,
   required List<TodoList> todayList,
   required BuildContext context,
-  required Future Function() onTodayTap, // 콜백 추가 함수 필요
+  required Future Function() onTodayTap, // 오늘 일정 콜백 추가 함수 필요
+  required VoidCallback onRefresh, // 삭제 일정 콜백
 }) {
   return Drawer(
     child: ListView(
@@ -59,8 +60,8 @@ Drawer drawerMenu({
           ),
           onTap: () async{
             Navigator.pop(context);
-            await onTodayTap(); // first페이지 정의한 onToday 함수 실행행
-            // Get.back();
+            await onTodayTap(); // first페이지 정의한 onTodayTap 함수 실행 위해 async,await 사용
+            // Get.back();   //(기존 명령어)
             // Get.to(Today()); 
           },
         ),
@@ -81,9 +82,17 @@ Drawer drawerMenu({
             '삭제 일정',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          onTap: () {
-            Get.back();
-            Get.to(Trash(trashList: TotalList.trashList));
+          // 복구 기능 문제로 변경한 코드
+          onTap: () async{
+            Navigator.pop(context); // 드로워 닫기
+              final result = await Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Trash(trashList: TotalList.trashList)),
+                );
+                  if (result == true) {
+                  onRefresh();
+                  }
+            // Get.back(); (기존 코드드)
+            // Get.to(Trash(trashList: TotalList.trashList));
           },
         ),
         ListTile(
@@ -92,7 +101,7 @@ Drawer drawerMenu({
             '로그 아웃',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          onTap: () => Get.offAll(() => Home()),
+          onTap: () => Get.offAll(() => Home()), 
         ),
       ],
     ),

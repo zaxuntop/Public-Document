@@ -16,7 +16,7 @@ class _TodayState extends State<Today> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('오늘 일정',
+        title: Text('< 오늘 일정 >',
         style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.lightBlue,
@@ -35,8 +35,21 @@ class _TodayState extends State<Today> {
         todayList: TotalList.todayList,
         context: context,
         onTodayTap: () async {}, // 콜백 필요없어 빈 async 함수 넘기기
+        onRefresh: (){setState(() { });}
         ),
-      body: ListView.builder(
+      body:
+      TotalList.todayList.isEmpty ? Center( // 오늘 일정 빈칸 알림 텍스트
+        child: Text(
+          "' 오늘의 일정은 없습니다. '",
+          style: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+          ),
+      )
+        :
+       ListView.builder(
         itemCount: TotalList.todayList.length,
         itemBuilder: (context, index) {
           return Dismissible(

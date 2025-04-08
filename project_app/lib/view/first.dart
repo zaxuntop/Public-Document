@@ -5,7 +5,7 @@ import 'package:project_app/model/message.dart';
 import 'package:project_app/view/drawer.dart';
 import 'package:project_app/view/habit.dart';
 import 'package:project_app/view/today.dart';
-// 로그인시 가장 먼저 보이는 페이지
+// 로그인시 가장 먼저 보이는 전체 일정 페이지(기본페이지지)
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
 
@@ -21,15 +21,13 @@ class _FirstPageState extends State<FirstPage> {
   late bool isCheckBox; // 체크박스 체크 여부
   late int radioValue; // 라디오 버튼 값
   late String selectDateText; // 선택 날짜 텍스트
-  // late List<TodoList> imaportantList; // 중요 일정 리스트
-  // late List<TodoList> trashList; // 삭제 일정 리스트
-  // late List<TodoList> todayList; // 오늘 일정 리스트
+
 
 @override
   void initState() {
     super.initState();
     todoList = TotalList.todoList; // 전체 일정 리스트
-    if(todoList.isEmpty){
+    if(todoList.isEmpty && TotalList.trashList.isEmpty){
     addData(); // 데이터 추가
     }
     date = DateTime.now(); // 지금 날짜로 초기화
@@ -38,15 +36,12 @@ class _FirstPageState extends State<FirstPage> {
     isCheckBox = false; // 체크박스 초기화
     radioValue = 0; // 라디오 버튼 초기화
     selectDateText = ''; // 선택 날짜 텍스트 초기화
-    // imaportantList = []; // 중요 일정 리스트 초기화
-    // trashList = []; // 삭제 일정 리스트 초기화
-    // todayList = []; // 오늘 일정 리스트 초기화
   }
 
-addData(){
+addData(){ // 허수 데이터 삽입
   todoList.add(TodoList(
     imagePath: 'images/food.png', 
-    contents: '안돌이지돌이다래미한숨바우 철수 식사', // 현실적으로 가장 긴 지명 예시
+    contents: '안돌이지돌이다래미한숨바우 철수 식사', // 입력칸에 현실적으로 가장 긴 지명 및 약속 사용
     date: DateTime.now(),
     action: false, 
     imaportant: false)
@@ -58,13 +53,14 @@ addData(){
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '전체 일정 관리',
+          '< 전체 일정 관리 >',
         style: TextStyle(
           fontWeight: FontWeight.bold
         ),
         ),
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
+        // 중요 일정 페이지 앱바 아이콘
         actions: [
           IconButton(onPressed: () {
             Get.to(Habit(imaportantList: TotalList.imaportantList,),
@@ -72,26 +68,30 @@ addData(){
             duration: Duration(seconds: 1),
             ); 
           },
-          icon: Icon(Icons.add_circle),
+          icon: Icon(Icons.import_contacts),
           ),
         ],
       ),
+      //드로우바 메뉴
       drawer: drawerMenu(
         imaportantList: TotalList.imaportantList, 
         trashList: TotalList.trashList, 
         todayList: TotalList.todayList,
         context: context,
-        onTodayTap: () async{
+        onTodayTap: () async{ 
           final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => Today(),));
           if(result == true){
             setState(() {      });
           }
         },
+        onRefresh: (){setState(() { });}
+
         ),
       body: Center(
         child: Column(
           children: [
             SizedBox(height: 8,),
+            //전체 일정 카테고리 종류 이미지
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -102,16 +102,18 @@ addData(){
                 Image.asset('images/clock.png', width: 40,),
               ],
             ),
+            // 전체 일정 카테고리 종류 텍스트
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text('회의'),
-                Text('운동'),
+                Text('활동'),
                 Text('식사'),
                 Text('쇼핑'),
                 Text('약속'),
               ],
             ),
+            // 전체 일정 카테고리 라디오 버튼
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -142,7 +144,7 @@ addData(){
                   ),
               ],
             ),
-      
+            // 텍스트 필드 입력 칸
             TextField(
               controller: textEditingController,
               decoration: InputDecoration(
@@ -153,13 +155,13 @@ addData(){
                 ),
               ),
               maxLines: 1,
-              maxLength: 19,  // 가장 긴 지명 14글자 감안
+              maxLength: 20,  // 가장 긴 지명 14글자 감안
             ),
             SizedBox(height: 5,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
+                ElevatedButton( // 날짜 선택 버튼
                   onPressed: () {
                     dispDatePicker();
                   }, 
@@ -170,6 +172,7 @@ addData(){
                   ),
                 ),
                   SizedBox(width: 20,),
+                // 일정 추가 버튼
                 ElevatedButton(
                   onPressed: () {
                     if(textEditingController.text.trim().isEmpty){
@@ -207,6 +210,7 @@ addData(){
                 ),
               ],
             ),
+            // 일정 리스트뷰
             Expanded(
               child: ListView.builder(
                 itemCount: todoList.length,
@@ -221,6 +225,7 @@ addData(){
                       TotalList.todayList.remove(removeIndex);
                       // TotalList.todayList.remove(TotalList.todayList[index]);
                       // todoList.remove(todoList[index]);
+                      Get.closeAllSnackbars(); // 여러 일정 삭제시 경고창 연속 등장 방지
                       Get.snackbar(
                         '삭제', 
                         '${removeIndex.contents} 일정을 삭제했습니다',
@@ -237,6 +242,7 @@ addData(){
                       size: 35,
                       ),
                     ),
+                    // 카드 체크박스시 색상 변함
                     child: Card(
                       color: todoList[index].action ? Colors.lightGreen : Colors.grey,
                       child: Row(
@@ -267,6 +273,7 @@ addData(){
                             ],
                           ),
                           Spacer(),
+                          // 중요 일정 표시 아이콘
                           IconButton(
                             onPressed: () {
                               todoList[index].imaportant = !todoList[index].imaportant;
