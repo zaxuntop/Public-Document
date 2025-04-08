@@ -4,6 +4,7 @@ import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
 import 'package:project_app/view/drawer.dart';
 import 'package:project_app/view/habit.dart';
+import 'package:project_app/view/today.dart';
 // 로그인시 가장 먼저 보이는 페이지
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -45,8 +46,8 @@ class _FirstPageState extends State<FirstPage> {
 addData(){
   todoList.add(TodoList(
     imagePath: 'images/food.png', 
-    contents: '안돌이지돌이다래미한숨바우 철수 식사', // 현실적으로 가장 긴 지명 예시시
-    date: DateTime.now(), 
+    contents: '안돌이지돌이다래미한숨바우 철수 식사', // 현실적으로 가장 긴 지명 예시
+    date: DateTime.now(),
     action: false, 
     imaportant: false)
   );
@@ -78,7 +79,14 @@ addData(){
       drawer: drawerMenu(
         imaportantList: TotalList.imaportantList, 
         trashList: TotalList.trashList, 
-        todayList: TotalList.todayList
+        todayList: TotalList.todayList,
+        context: context,
+        onTodayTap: () async{
+          final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => Today(),));
+          if(result == true){
+            setState(() {      });
+          }
+        },
         ),
       body: Center(
         child: Column(
@@ -167,7 +175,7 @@ addData(){
                     if(textEditingController.text.trim().isEmpty){
                       Get.snackbar('경고', '일정을 입력하세요', backgroundColor: Colors.redAccent);
                       return;
-                    } // index 참조를 위해 newtodo 변수 지정
+                    } // 객체, 여러 리스트 공유 위해 newtodo 만듬(Todolist, todaylist)
                      final newtodo = TodoList(
                       imagePath: getRadioValue(), 
                       contents: textEditingController.text, 
@@ -208,14 +216,14 @@ addData(){
                     key: ValueKey(todoList[index]),
                     onDismissed: (direction) {
                       TotalList.trashList.add(todoList[index]);
-                      final removeIndex = todoList[index]; // index 참조 위해 변수 지정
+                      final removeIndex = todoList[index]; //삭제후 index 참조 위해 변수 지정
                       todoList.removeAt(index);
                       TotalList.todayList.remove(removeIndex);
                       // TotalList.todayList.remove(TotalList.todayList[index]);
                       // todoList.remove(todoList[index]);
                       Get.snackbar(
                         '삭제', 
-                        '해당 일정을 삭제했습니다',
+                        '${removeIndex.contents} 일정을 삭제했습니다',
                         backgroundColor: Colors.redAccent,
                         duration: Duration(milliseconds: 1500),
                         );

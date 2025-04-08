@@ -6,13 +6,14 @@ import 'package:project_app/view/first.dart';
 import 'package:project_app/view/habit.dart';
 import 'package:project_app/view/home.dart';
 import 'package:project_app/view/profile.dart';
-import 'package:project_app/view/today.dart';
 import 'package:project_app/view/trash.dart';
 
-Widget drawerMenu({
+Drawer drawerMenu({
   required List<TodoList> imaportantList,
   required List<TodoList> trashList,
   required List<TodoList> todayList,
+  required BuildContext context,
+  required Future Function() onTodayTap, // 콜백 추가 함수 필요
 }) {
   return Drawer(
     child: ListView(
@@ -56,9 +57,11 @@ Widget drawerMenu({
             '오늘 일정',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          onTap: () {
-            Get.back();
-            Get.to(Today());
+          onTap: () async{
+            Navigator.pop(context);
+            await onTodayTap(); // first페이지 정의한 onToday 함수 실행행
+            // Get.back();
+            // Get.to(Today()); 
           },
         ),
         ListTile(
@@ -89,7 +92,7 @@ Widget drawerMenu({
             '로그 아웃',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          onTap: () => Get.offAll(Home()),
+          onTap: () => Get.offAll(() => Home()),
         ),
       ],
     ),

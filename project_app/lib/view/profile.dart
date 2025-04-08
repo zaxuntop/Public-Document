@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:project_app/view/first.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -14,7 +16,13 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: Text('프로필'),
         backgroundColor: Colors.lightGreen,
+        leading: IconButton(
+          onPressed: () {
+            Get.off(() => FirstPage());
+          }, 
+          icon: Icon(Icons.arrow_back)),
       ),
+      
       body: Center(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
