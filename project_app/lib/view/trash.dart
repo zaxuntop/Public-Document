@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
-import 'package:project_app/view/first.dart';
 
 class Trash extends StatefulWidget {
   final List<TodoList> trashList;
@@ -26,7 +26,7 @@ class _TrashState extends State<Trash> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '삭제한 일정',
+          '< 삭제한 일정 >',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -35,7 +35,7 @@ class _TrashState extends State<Trash> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Get.off(() => FirstPage());
+            Navigator.pop(context, true);
           }, 
           icon: Icon(Icons.arrow_back)),        
       ),
@@ -71,22 +71,56 @@ class _TrashState extends State<Trash> {
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: ElevatedButton
-            (onPressed: () {
-              if(isCheckBox2 == true){ // 체크박스가 true면 경고 함수 실행
-              buttonDialog();
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            ),
-            child: Text(
-              '삭 제',
-              style: TextStyle(
-                color: Colors.black,
-              ),
-              )
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton
+                (onPressed: () {
+                  if(isCheckBox2 == true){ // 체크박스가 true면 경고 함수 실행
+                  buttonDialog();
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amberAccent,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: Text(
+                  '삭 제',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  )
+                ),
+                SizedBox(width: 30,),
+                ElevatedButton(
+                  onPressed: () {
+                    if(isCheckBox2 == true){
+                      final restore = TotalList.trashList.where((e) => e.action == true).toList();
+                      if(restore.isNotEmpty){
+                        TotalList.todoList.addAll(restore);
+                        TotalList.trashList.removeWhere((e) => e.action == true);
+                        for(var i in restore){
+                          i.action = false;
+                        }
+                        isCheckBox2 = false;
+                        setState(() {      });
+                        Get.snackbar(
+                          '복 구', 
+                          '${restore.length}개의 일정이 복구되었습니다.',
+                          backgroundColor: Colors.blueAccent,
+                          duration: Duration(seconds: 1)
+                          );
+                      }
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.lightGreenAccent,
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),            
+                  child: Text('복 구')
+                ),
+              ],
             ),
           ),
         ],
