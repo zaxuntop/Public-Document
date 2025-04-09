@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      localizationsDelegates: [ // 로컬하려면 타이틀 쪽에 로컬컬라이제이션 사용, 펍스펙.yaml 추가 타이핑
+      // 로컬하려면 타이틀 밑에 로컬라이제이션 사용, 펍스펙.yaml 추가 타이핑 해야함
+      localizationsDelegates: [ 
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
