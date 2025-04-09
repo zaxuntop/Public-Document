@@ -19,7 +19,7 @@ class _HabitState extends State<Habit> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '< 중요 일정 >',
+          '- 중요 일정 -',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),

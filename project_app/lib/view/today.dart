@@ -16,7 +16,7 @@ class _TodayState extends State<Today> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('< 오늘 일정 >',
+        title: Text('- 오늘 일정 -',
         style: TextStyle(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.lightBlue,
@@ -56,7 +56,7 @@ class _TodayState extends State<Today> {
             direction: DismissDirection.endToStart,
             key: ValueKey(TotalList.todayList[index].contents),
             onDismissed: (direction) {
-              final removeIndex = TotalList.todayList[index];
+              final removeIndex = TotalList.todayList[index]; // 삭제 후에도 index가 필요해서 만듬
               TotalList.trashList.add(removeIndex);
               TotalList.todayList.removeAt(index);
               TotalList.todoList.remove(removeIndex);

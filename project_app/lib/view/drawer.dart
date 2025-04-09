@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:project_app/model/controller.dart';
 import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
-import 'package:project_app/view/first.dart';
 import 'package:project_app/view/habit.dart';
 import 'package:project_app/view/home.dart';
 import 'package:project_app/view/profile.dart';
 import 'package:project_app/view/trash.dart';
-// 드로우바를 클래스로 변경하여 다른페이지에서 불러쓰게 함
+// 드로우바를 위젯으로 변경하여 다른페이지에서 불러쓰게 함
 Drawer drawerMenu({
   required List<TodoList> imaportantList,
   required List<TodoList> trashList,
@@ -23,7 +23,7 @@ Drawer drawerMenu({
           currentAccountPicture: CircleAvatar(
             backgroundImage: AssetImage('images/login2.jpg'),
           ),
-          accountName: Text('야나두'),
+          accountName: Text(UserController.userName),
           accountEmail: Text('yanado@todo.or.kr'),
           decoration: BoxDecoration(
             color: Colors.lightGreen,
@@ -49,7 +49,7 @@ Drawer drawerMenu({
           ),
           onTap: () {
             Get.back(); 
-            Get.to(FirstPage());
+            Get.toNamed('/first');
           },
         ),
         ListTile(
@@ -61,7 +61,7 @@ Drawer drawerMenu({
           onTap: () async{
             Navigator.pop(context);
             await onTodayTap(); // first페이지 정의한 onTodayTap 함수 실행 위해 async,await 사용
-            // Get.back();   //(기존 명령어)
+            // Get.back();   //(기존 코드)
             // Get.to(Today()); 
           },
         ),
@@ -89,9 +89,9 @@ Drawer drawerMenu({
                 MaterialPageRoute(builder: (context) => Trash(trashList: TotalList.trashList)),
                 );
                   if (result == true) {
-                  onRefresh();
+                  onRefresh(); // 셋스테이트가 불가능해 삭제 일정 콜백 함수 만듬
                   }
-            // Get.back(); (기존 코드드)
+            // Get.back(); //(기존 코드)
             // Get.to(Trash(trashList: TotalList.trashList));
           },
         ),

@@ -5,7 +5,7 @@ import 'package:project_app/model/message.dart';
 import 'package:project_app/view/drawer.dart';
 import 'package:project_app/view/habit.dart';
 import 'package:project_app/view/today.dart';
-// 로그인시 가장 먼저 보이는 전체 일정 페이지(기본페이지지)
+// 로그인시 가장 먼저 보이는 전체 일정 페이지(기본페이지)
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
 
@@ -16,7 +16,7 @@ class FirstPage extends StatefulWidget {
 class _FirstPageState extends State<FirstPage> {
   late List<TodoList> todoList; // 전체 일정 리스트
   late DateTime date; // 날짜
-  late TextEditingController textEditingController; // 덱스트 필드 컨트롤러
+  late TextEditingController textEditingController; // 텍스트 필드 컨트롤러
   late DateTime selectedDate; // 선택한 날짜
   late bool isCheckBox; // 체크박스 체크 여부
   late int radioValue; // 라디오 버튼 값
@@ -28,7 +28,7 @@ class _FirstPageState extends State<FirstPage> {
     super.initState();
     todoList = TotalList.todoList; // 전체 일정 리스트
     if(todoList.isEmpty && TotalList.trashList.isEmpty){
-    addData(); // 데이터 추가
+    addData(); // 데이터 추가(전체 및 삭제 일정이 비어있을시)
     }
     date = DateTime.now(); // 지금 날짜로 초기화
     textEditingController = TextEditingController(); // 텍스트 필드 컨트롤러 초기화
@@ -53,7 +53,7 @@ addData(){ // 허수 데이터 삽입
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '< 전체 일정 관리 >',
+          '- 전체 일정 관리 -',
         style: TextStyle(
           fontWeight: FontWeight.bold
         ),
@@ -123,7 +123,7 @@ addData(){ // 허수 데이터 삽입
                   onChanged: (value) => radioChange(value),
                   ),
                 Radio(
-                  value: 1, // 운동 일정
+                  value: 1, // 활동 일정
                   groupValue: radioValue, 
                   onChanged: (value) => radioChange(value),
                   ),
@@ -155,7 +155,7 @@ addData(){ // 허수 데이터 삽입
                 ),
               ),
               maxLines: 1,
-              maxLength: 20,  // 가장 긴 지명 14글자 감안
+              maxLength: 20,  // 가장 긴 지명 13글자 감안
             ),
             SizedBox(height: 5,),
             Row(
@@ -222,7 +222,7 @@ addData(){ // 허수 데이터 삽입
                       TotalList.trashList.add(todoList[index]);
                       final removeIndex = todoList[index]; //삭제후 index 참조 위해 변수 지정
                       todoList.removeAt(index);
-                      TotalList.todayList.remove(removeIndex);
+                      TotalList.todayList.remove(removeIndex); 
                       // TotalList.todayList.remove(TotalList.todayList[index]);
                       // todoList.remove(todoList[index]);
                       Get.closeAllSnackbars(); // 여러 일정 삭제시 경고창 연속 등장 방지
@@ -282,7 +282,7 @@ addData(){ // 허수 데이터 삽입
                               }else{
                                 TotalList.imaportantList.remove(todoList[index]);
                               }
-                              setState(() {                         });
+                              setState(() {  });
                             }, 
                             icon: Icon(
                               Icons.star,
@@ -302,7 +302,7 @@ addData(){ // 허수 데이터 삽입
     );
   } //build
 
-// 라디오 버튼 값 변경 함수
+// 라디오 버튼 값 변경 함수, 라디오 값은 널러블 가능(하나만 선택하니까), 따라서 ?와 ! 
   radioChange(int? value){
     radioValue = value!;
     setState(() { });
