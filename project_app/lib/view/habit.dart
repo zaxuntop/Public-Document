@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
 import 'package:project_app/view/first.dart';
@@ -20,7 +21,8 @@ class _HabitState extends State<Habit> {
       appBar: AppBar(
         title: Text(
           '- 중요 일정 -',
-          style: TextStyle(
+          style: GoogleFonts.nanumBrushScript(
+            fontSize: 35,
             fontWeight: FontWeight.bold,
           ),
           ),

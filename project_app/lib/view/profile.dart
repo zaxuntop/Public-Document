@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/model/controller.dart';
 import 'package:project_app/view/first.dart';
 // 프로필 칸
@@ -15,8 +16,13 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('- 프로필 -'),
+        title: Text('- 프로필 -',
+        style: GoogleFonts.nanumPenScript(
+          fontSize: 40,
+        ),
+        ),
         backgroundColor: Colors.lightGreen,
+        centerTitle: true,
         leading: IconButton(
           onPressed: () {
             Get.off(() => FirstPage());
@@ -39,7 +45,7 @@ class _ProfileState extends State<Profile> {
               ),
               Text(
                 "' ${UserController.userName} '",
-                style: TextStyle(
+                style: GoogleFonts.nanumMyeongjo(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -48,14 +54,14 @@ class _ProfileState extends State<Profile> {
                   '즐거운 마음으로 일정을 관리합니다\n'
                   '여러분도 함께 해요!!\n'
                   '모두 좋은 일만 생기시길~\n',
-                  style: TextStyle(
+                  style: GoogleFonts.doHyeon(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   '2025년 4월 4일',
-                  style: TextStyle(
+                  style: GoogleFonts.jua(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
 import 'package:project_app/view/drawer.dart';
@@ -54,7 +55,8 @@ addData(){ // 허수 데이터 삽입
       appBar: AppBar(
         title: Text(
           '- 전체 일정 관리 -',
-        style: TextStyle(
+        style: GoogleFonts.nanumBrushScript(
+          fontSize: 35,
           fontWeight: FontWeight.bold
         ),
         ),

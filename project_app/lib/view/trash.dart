@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/model/list.dart';
 import 'package:project_app/model/message.dart';
 
@@ -26,8 +27,9 @@ class _TrashState extends State<Trash> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '< 삭제한 일정 >',
-          style: TextStyle(
+          '- 삭제한 일정 -',
+          style: GoogleFonts.nanumBrushScript(
+            fontSize: 35,
             fontWeight: FontWeight.bold,
           ),
           ),

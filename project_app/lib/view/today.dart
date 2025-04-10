@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/model/list.dart';
 import 'package:project_app/view/drawer.dart';
 
@@ -17,7 +18,10 @@ class _TodayState extends State<Today> {
     return Scaffold(
       appBar: AppBar(
         title: Text('- 오늘 일정 -',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: GoogleFonts.nanumBrushScript(
+          fontWeight: FontWeight.bold,
+          fontSize: 35,
+          ),
         ),
         backgroundColor: Colors.lightBlue,
         centerTitle: true,

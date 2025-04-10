@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_app/view/first.dart';
 //로그인 화면 창
 class Home extends StatefulWidget {
@@ -30,9 +31,10 @@ class _HomeState extends State<Home> {
         '야 너두 To do 할 수 있어\n' 
         "'Log In Now!'",
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: GoogleFonts.nanumBrushScript(
           color: const Color.fromARGB(255, 27, 19, 148),
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.bold,
+          fontSize: 26,
         ),
         ),
         centerTitle: true,
@@ -52,7 +54,7 @@ class _HomeState extends State<Home> {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(height: 15),
+                    SizedBox(height: 5),
                     SizedBox(
                       height: 200,
                       child: Container(
@@ -69,31 +71,35 @@ class _HomeState extends State<Home> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextField(
-                        controller: idcontroller,
-                        decoration: InputDecoration(
-                          labelText: 'ID를 입력하세요',
-                          filled: true,
-                          fillColor: Colors.black12,
-                          border: OutlineInputBorder(),
-                          counterText: '',
+                      child: SizedBox(width: 300,
+                        child: TextField(
+                          controller: idcontroller,
+                          decoration: InputDecoration(
+                            labelText: 'ID를 입력하세요',
+                            filled: true,
+                            fillColor: Colors.black12,
+                            border: OutlineInputBorder(),
+                            counterText: '',
+                          ),
+                          maxLength: 20,
                         ),
-                        maxLength: 20,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: TextField(
-                        controller: pwcontroller,
-                        decoration: InputDecoration(
-                          labelText: 'PW를 입력하세요',
-                          filled: true,
-                          fillColor: Colors.black12,
-                          border: OutlineInputBorder(),
-                          counterText: '',
+                      child: SizedBox(width: 300,
+                        child: TextField(
+                          controller: pwcontroller,
+                          decoration: InputDecoration(
+                            labelText: 'PW를 입력하세요',
+                            filled: true,
+                            fillColor: Colors.black12,
+                            border: OutlineInputBorder(),
+                            counterText: '',
+                          ),
+                          obscureText: true,
+                          maxLength: 20,
                         ),
-                        obscureText: true,
-                        maxLength: 20,
                       ),
                     ),
                     Padding(
